@@ -1,6 +1,7 @@
 import { ask, show } from './dialog.jsx'
 import React, { useEffect, useState } from 'react'
 import { api } from './api.js'
+import { ThemePicker, MyLook, paintBrand } from './theme.jsx'
 
 export function Firewall() {
   const [d, setD] = useState(null)
@@ -130,6 +131,7 @@ export function Security({ me, reload }) {
   return (
     <>
       <h1>My account</h1>{err && <div className="alert bad" role="alert">{err}</div>}{msg && <div className="alert good" role="status">{msg}</div>}
+      <MyLook me={me} onSaved={reload} />
       <form className="card" onSubmit={(e) => { e.preventDefault(); wrap(api('/account/password', pw), 'Password changed. Please sign in again.').then(() => setTimeout(() => window.location.reload(), 1200)) }}><h2>Change password</h2><div className="form">
         <label>Current password<input type="password" autoComplete="current-password" value={pw.current} onChange={(e) => setPw({ ...pw, current: e.target.value })} required /></label>
         <label>New password<input type="password" autoComplete="new-password" value={pw.password} onChange={(e) => setPw({ ...pw, password: e.target.value })} required /></label></div><div style={{ marginTop: 12 }}><button className="btn primary">Change</button></div></form>
@@ -163,7 +165,7 @@ export function ResellerBrand({ me }) {
 }
 
 function Brand({ me }) {
-  const [f, setF] = useState({ name: me.brand.name, color: me.brand.color, logo: me.brand.logo || '', support: me.brand.support || '' })
+  const [f, setF] = useState({ name: me.brand.name, color: me.brand.color, logo: me.brand.logo || '', support: me.brand.support || '', theme: me.brand.theme, side: me.brand.side, bg: me.brand.bg, radius: me.brand.radius })
   const save = () => me.user.role === 'owner' ? api('/settings/brand', f) : api('/users/' + me.user.id, { brand: f })
   const [msg, setMsg] = useState('')
   const [err, setErr] = useState('')
@@ -171,8 +173,10 @@ function Brand({ me }) {
     <form className="card" onSubmit={(e) => { e.preventDefault(); setErr(''); save().then(() => { setMsg('Saved. Reload the page to see it everywhere.') }).catch((x) => setErr(x.message)) }}>
       <h2>Name and look</h2><p className="muted small">{me.user.role === 'owner' ? 'Everybody sees this name, colour and logo. A reseller can set their own (Accounts > Your brand) for their clients.' : 'Your clients see this name, colour and logo instead of the server owner\'s.'}</p>
       {err && <div className="alert bad">{err}</div>}{msg && <div className="alert good">{msg}</div>}
-      <div className="form"><label>Panel name<input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></label><label>Colour<input type="color" value={f.color} onChange={(e) => setF({ ...f, color: e.target.value })} style={{ height: 42 }} /></label>
+      <div className="form"><label>Panel name<input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></label>
         <label>Logo address (https)<input value={f.logo} onChange={(e) => setF({ ...f, logo: e.target.value })} /></label><label>Support e-mail<input type="email" value={f.support} onChange={(e) => setF({ ...f, support: e.target.value })} /></label></div>
+      <h3>Theme</h3><p className="muted small">The look everybody gets (each user can still pick their own in My account &gt; Look).</p>
+      <ThemePicker value={f} onChange={(x) => { setF({ ...f, ...x }); paintBrand({ ...me.brand, ...x }) }} />
       <div style={{ marginTop: 12 }}><button className="btn primary">Save</button></div></form>
   )
 }

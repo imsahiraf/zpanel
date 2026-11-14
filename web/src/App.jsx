@@ -2,6 +2,7 @@ import { SideNav, SectionPage, DashboardHome, toolsFor, sectionForRoute } from '
 import { NetworkTools, SshKeys, DiskUsage, RemoteDb, Bandwidth, AccountsUsage } from './AccountTools.jsx'
 import React, { useEffect, useState } from 'react'
 import { api, setCsrf } from './api.js'
+import { paintBrand } from './theme.jsx'
 import { Dashboard } from './Dashboard.jsx'
 import { Icon } from './icons.jsx'
 import { Sites, SiteTool } from './Sites.jsx'
@@ -111,7 +112,7 @@ export default function App() {
   const [pub, setPub] = useState({ name: 'ZPanel' })
   const [dark, flipTheme] = useTheme()
   useEffect(() => { setLanguage(savedLanguage()) }, [])
-  useEffect(() => { api('/brand').then((b) => { setPub(b); document.title = b.name; if (b.color) document.documentElement.style.setProperty('--brand', b.color) }).catch(() => {}) }, [])
+  useEffect(() => { api('/brand').then((b) => { setPub(b); document.title = b.name; paintBrand(b) }).catch(() => {}) }, [])
   const load = () => api('/me').then((r) => { setCsrf(r.csrf); setMe(r) }).catch(() => setMe(null))
   useEffect(() => { load() }, [])
   useEffect(() => {
@@ -120,7 +121,7 @@ export default function App() {
     window.addEventListener('zp-signed-out', out); window.addEventListener('hashchange', hash)
     return () => { window.removeEventListener('zp-signed-out', out); window.removeEventListener('hashchange', hash) }
   }, [])
-  useEffect(() => { if (me) { document.documentElement.style.setProperty('--brand', me.brand.color); document.title = me.brand.name } }, [me])
+  useEffect(() => { if (me) { paintBrand(me.brand); document.title = me.brand.name } }, [me])
   useEffect(() => { if (me && me.user.language) setLanguage(me.user.language) }, [me])
   if (me === undefined) return <div className="login"><p className="muted">Loading...</p></div>
   if (me === null) return <Login onDone={load} brand={pub} />

@@ -441,6 +441,15 @@ final class Modules
             return ['ok' => true];
         });
 
+        // themes (owner 2026-11-15): the list, and a user's own look over the panel's
+        $app->route('GET', '/api/themes', 'any', fn () => ['themes' => array_map(fn ($t) => ['label' => $t[0], 'side' => $t[1], 'bg' => $t[5], 'radius' => $t[6]], Brand::THEMES)]);
+        $app->route('POST', '/api/me/look', 'any', function ($r, $u) {
+            $look = Brand::cleanLook((array) $r['body']);
+            Db::put('look:' . (int) $u['id'], json_encode($look));
+            Audit::log((int) $u['id'], 'account.look', ['theme' => $look['theme'] ?? null]);
+
+            return ['brand' => Brand::for(Auth::user((int) $u['id']))];
+        });
         // owner: brand, audit
         $app->route('POST', '/api/settings/brand', 'owner', function ($r, $u) {
             Db::put('brand', json_encode(Brand::clean($r['body'])));

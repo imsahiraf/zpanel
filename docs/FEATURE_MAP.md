@@ -24,6 +24,13 @@ Studied on 2026-10-29: the route table and the front-end of the panel installed 
 | Updates | Panel and software updates | Yes: update channel (signed release feed), one-click panel update |
 | White label | Not offered | Yes: panel name, logo, colours, domain per reseller |
 
+
+## 2.3.0 (2026-11-15): themes
+Owner: every product gives at least four themes, colours and shading changed by the customer. Six themes (Midnight, Daylight, Ocean,
+Forest, Sunset, Graphite) + main colour, sidebar colour, page colour, corners. The server owner sets the panel's look (Settings >
+Name and look), a reseller for their clients (Your brand), every user their own (My account > Look); the sign-in page wears the
+owner's theme. Shading belongs to the theme it was set with. Tests: AccountToolsTest::test_themes_for_the_panel_reseller_and_each_user.
+
 ## 0.2.0 (2026-10-30): server features of the Webuzo class
 DNS zone editor (BIND zones, checked with named-checkzone before loading), FTP users (Pure-FTPd, locked into a site folder), Redis instances (own port, password and memory limit),
 Docker (containers, logs, one-click templates; owner only), server mail (Postfix + Dovecot virtual domains, mailboxes with hashed passwords and quotas, forwards, DKIM / SPF / DMARC hints),

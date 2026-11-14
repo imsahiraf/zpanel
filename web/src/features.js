@@ -29,7 +29,7 @@ export const SECTIONS = [
   ['advanced', 'Developer tools', 'terminal', '#0f766e', 'Cron jobs, terminal, services, templates', 'Developer'],
   ['clients', 'Accounts and reselling', 'users', '#9333ea', 'Create accounts, plans, transfers, billing', 'Accounts'],
   ['server', 'Server settings', 'server', '#475569', 'Host name, IPs, updates, certificates, alerts', 'Server'],
-  ['account', 'My account', 'user', '#64748b', 'Password, two-step sign-in, support', 'My account'],
+  ['account', 'My account', 'user', '#64748b', 'Password, two-step sign-in, your look, support', 'My account'],
 ]
 export const sectionOf = (key) => SECTIONS.find((x) => x[0] === key)
 
@@ -172,6 +172,7 @@ export const FEATURES = [
   // account
   ['account', 'My account', 'Password, two-step sign-in, tokens', 'user', 'security', 'any'],
   ['account', 'Support tickets', 'Ask for help, see answers', 'ticket', 'tickets', 'any'],
+  ['account', 'Look and theme', 'Six themes, your own colours, sidebar, page colour and corners', 'palette', 'security', 'any'],
   ['security', 'My SSH keys', 'Sign in to the server with your own SSH key', 'key', 'sshkeys', 'any'],
   ['advanced', 'Network tools', 'DNS lookup, ping and trace route', 'network', 'nettools', 'any'],
 ].map(([group, name, text, icon, to, who, siteTab]) => ({ group, name, text, icon, to: siteTab ? 'tool/' + toolSlug(name) : to, page: siteTab ? 'sites' : to.split('/')[0], who, siteTab }))

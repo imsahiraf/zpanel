@@ -15,7 +15,7 @@ final class Routes
     public static function register(App $app): void
     {
         // the sign-in page shows the server owner's brand (name, colour, logo) before anybody is signed in
-        $app->route('GET', '/api/brand', 'public', fn ($r) => ['json' => array_intersect_key(Brand::owner(), array_flip(['name', 'color', 'logo']))]);
+        $app->route('GET', '/api/brand', 'public', fn ($r) => ['json' => array_intersect_key(Brand::withTheme(Brand::owner()), array_flip(['name', 'color', 'logo', 'theme', 'side', 'side2', 'side_text', 'side_muted', 'bg', 'radius']))]);
         // licence of the full panel (owner 2026-11-11): status for everybody signed in (banner), key only by the owner
         $app->route('GET', '/api/licence', 'any', fn ($r, $u) => ['json' => Licence::status() + ['owner' => $u['role'] === 'owner']]);
         $app->route('POST', '/api/licence', 'owner', function ($r, $u) {

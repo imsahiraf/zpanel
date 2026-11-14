@@ -4,7 +4,7 @@ A small, fast control panel for one Linux server that I build in my free time: w
 databases, scheduled jobs, backups, the firewall and SSH, server status and two-step sign-in. Plain PHP back end, React web app,
 every system command run as an argument list (no shell strings).
 
-Version 2.2.0. Free to use - see LICENSE for the short terms. Ideas and pull requests are welcome.
+Version 2.3.0. Free to use - see LICENSE for the short terms. Ideas and pull requests are welcome.
 
 ## Install (fresh Ubuntu 22.04 / 24.04 or Debian 12, as root)
 
